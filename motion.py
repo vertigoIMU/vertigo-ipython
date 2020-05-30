@@ -50,23 +50,6 @@ class MotionCapture(object):
                          method='nearest').reset_index()
         return pd.merge(self._imu_data, r, on='timestamp')
 
-        idx = np.searchsorted(self._imu_data['timestamp'],
-                              self._quat_data['timestamp']) - 1
-        mask = idx >= 0
-        return pd.DataFrame({
-            'timestamp': self._imu_data['timestamp'].values[mask],
-            'ax': self._imu_data['ax'].values[mask],
-            'ay': self._imu_data['ay'].values[mask],
-            'az': self._imu_data['az'].values[mask],
-            'rx': self._imu_data['rx'].values[mask],
-            'ry': self._imu_data['ry'].values[mask],
-            'rz': self._imu_data['rz'].values[mask],
-            'q0': self._quat_data['q0'].values[mask],
-            'q1': self._quat_data['q1'].values[mask],
-            'q2': self._quat_data['q2'].values[mask],
-            'q3': self._quat_data['q3'].values[mask]
-            })
-
     def _hamiltonian_product(self, q, r):
         return np.array([
             q[0]*r[0] - q[1]*r[1] - q[2]*r[2] - q[3]*r[3],
